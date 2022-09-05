@@ -29,9 +29,8 @@ class SignUserAction extends UserAction
                 "aud" => "slim-rest-api",
                 "iat" => time(),
                 "exp" => time() + 3600,
-                "data" => [
-                    "user_id" => $registred_user['id']
-                ]
+                "auth" => ["users"],
+                "user_id" => $registred_user['id'],
             ];
 
             $jwt = JWT::encode($token,$this->settings->get('jwt-secret'),'HS256');
@@ -39,16 +38,13 @@ class SignUserAction extends UserAction
             $refresh = [
                 "iat" => time(),
                 "exp" => time() + 43800,
-                "data" => [
-                    "user_id" => $registred_user['id']
-                ]
+                "user_id" => $registred_user['id']
             ];
 
             $refresh = JWT::encode($refresh,$this->settings->get('jwt-secret'),'HS256');
 
             $result=[
                 'user_id' => $registred_user['id'],
-                'success' => true,
                 'message' => "Register Successfull",
 //                'jwt-token-decoded' => JWT::decode($jwt,new Key($this->settings->get('jwt-secret'),'HS256')),
                 'jwt-token' => $jwt,
@@ -58,7 +54,6 @@ class SignUserAction extends UserAction
         }
         else{
             $result=[
-                'success' => false,
                 'message' => "Register denied",
             ];
             $statusCode=500;

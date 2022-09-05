@@ -24,14 +24,15 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
+        "ext-pdo": "*",
+        "firebase/php-jwt": "^6.3",
         "monolog/monolog": "^2.3",
         "php-di/php-di": "^6.3",
         "selective/config": "^1.1",
         "selective/database": "^3.1",
         "slim/psr7": "^1.5",
-        "firebase/php-jwt": "^6.3",
-        "ext-pdo": "*",
-        "slim/slim": "^4.9"
+        "slim/slim": "^4.9",
+        "tuupola/slim-jwt-auth": "@dev"
     },
     "require-dev": {
         "jangregor/phpstan-prophecy": "^1.0.0",

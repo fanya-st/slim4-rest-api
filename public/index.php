@@ -61,6 +61,15 @@ $request = $serverRequestCreator->createServerRequestFromGlobals();
 $responseFactory = $app->getResponseFactory();
 $errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
 
+$app->add(new Tuupola\Middleware\JwtAuthentication([
+    'algorithm' => 'HS256',
+    "path" => ["/api", "/users"],
+    "ignore" => ["/api/sign","/api/login","/users"],
+    "secure"=>true,
+    "relaxed"=>["slim4-rest-api"],
+    "secret" => $settings->get('jwt-secret')
+]));
+
 // Create Shutdown Handler
 $shutdownHandler = new ShutdownHandler($request, $errorHandler, $displayErrorDetails);
 register_shutdown_function($shutdownHandler);

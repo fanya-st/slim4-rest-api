@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Application\Actions\User;
 
 use Psr\Http\Message\ResponseInterface as Response;
+use Firebase\JWT\Key;
+use Firebase\JWT\JWT;
 
 class ListUsersAction extends UserAction
 {
@@ -12,10 +14,17 @@ class ListUsersAction extends UserAction
      */
     protected function action(): Response
     {
-        $users = $this->userRepository->findAll();
+//        $data = $this->request->getParsedBody()["token"];
+        $token=JWT::decode($this->request->getParsedBody()["token"],new Key($this->settings->get('jwt-secret'),'HS256'));
+        if (in_array("users", $token->auth)) {
+            $users = $this->userRepository->findAll();
 
-        $this->logger->info("Users list was viewed.");
+            $this->logger->info("Users list was viewed.");
 
-        return $this->respondWithData($users);
+            return $this->respondWithData($users);
+        } else {
+            return $this->respondWithData(null,401);
+        }
+
     }
 }

@@ -28,9 +28,8 @@ class LoginUserAction extends UserAction
                 "aud" => "slim-rest-api",
                 "iat" => time(),
                 "exp" => time() + 3600,
-                "data" => [
-                    "user_id" => $user['id']
-                ]
+                "user_id" => $user['id'],
+                "auth" => ["users"]
             ];
 
             $jwt = JWT::encode($token,$this->settings->get('jwt-secret'),'HS256');
@@ -38,26 +37,22 @@ class LoginUserAction extends UserAction
             $refresh = [
                 "iat" => time(),
                 "exp" => time() + 43800,
-                "data" => [
-                    "user_id" => $user['id']
-                ]
+                "user_id" => $user['id']
             ];
 
             $refresh = JWT::encode($refresh,$this->settings->get('jwt-secret'),'HS256');
 
             $result=[
                 'user_id' => $user['id'],
-                'success' => true,
                 'message' => "Login Successfull",
                 'jwt-token' => $jwt,
-//                'jwt-token-decoded' => JWT::decode($jwt,new Key('dfdfbvfbn','HS256')),
+                'jwt-token-decoded' => JWT::decode($jwt,new Key($this->settings->get('jwt-secret'),'HS256')),
                 'refresh-token' => $refresh
             ];
             $statusCode=200;
         }
         else{
             $result=[
-                'success' => false,
                 'message' => "Login denied",
             ];
             $statusCode=500;
