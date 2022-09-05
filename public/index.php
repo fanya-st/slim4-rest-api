@@ -64,6 +64,7 @@ $errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
 $app->add(new Tuupola\Middleware\JwtAuthentication([
     'algorithm' => 'HS256',
     "path" => ["/api", "/users"],
+    /*игнорирование для тестового сервера*/
     "ignore" => ["/api/sign","/api/login","/users"],
     "secure"=>true,
     "relaxed"=>["slim4-rest-api"],
