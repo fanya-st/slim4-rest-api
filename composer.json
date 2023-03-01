@@ -25,7 +25,7 @@
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
         "ext-pdo": "*",
-        "firebase/php-jwt": "^6.3",
+        "firebase/php-jwt": "^6.4",
         "monolog/monolog": "^2.3",
         "php-di/php-di": "^6.3",
         "selective/config": "^1.1",
